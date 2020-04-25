@@ -1,6 +1,7 @@
 # Project Specific
 .vscode
 venv/
+profiles/
 credentials.json
 
 # Byte-compiled / optimized / DLL files
