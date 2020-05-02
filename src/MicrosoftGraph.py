@@ -2,6 +2,7 @@
 
 import json
 import requests
+from urllib.parse import urljoin
 
 class AzureActiveDirectory(object):
     def __init__(self, aad_id, resource):
@@ -45,5 +46,10 @@ class AzureActiveDirectory(object):
 
 class OneDrive(AzureActiveDirectory):
     def __init__(self, aad_id):
-        self.Resource = "https://graph.microsoft.com"
+        self.Resource = "https://graph.microsoft.com/me/drive/"
         super().__init__(aad_id, self.Resource)
+
+    def GetDriveItems(self, token, query):
+        with requests.Session() as session:
+            session.headers.update( { 'Authorization' : 'Bearer {0}'.format(token) } )
+            return json.loads(session.get(urljoin(self.Resource, query)))
