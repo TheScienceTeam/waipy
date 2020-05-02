@@ -2,14 +2,16 @@
 
 import json
 import requests
-from requests_oauthlib import OAuth2Session
 
 class AzureActiveDirectory(object):
-    @staticmethod
-    def get_token(aad_id, client_id, client_secret, resource, grant_type): #client_id, client_secret
+    def __init__(self, aad_id, resource):
+        self.AzureActiveDirectoryID = aad_id
+        self.Resource = resource
+    
+    def PostAuthenticationEndpoint(self, client_id, client_secret, grant_type): #client_id, client_secret
         """
-            Send a POST request to Azure Active Directory Authentication's 
-            endpoint to receive an access token for this application.
+            Sends a POST request to Azure Active Directory Authentication's 
+            endpoint to receive an access token for this application in response.
 
             Args:
                 aad_id          : Azure Active Directory ID or Name
@@ -21,16 +23,27 @@ class AzureActiveDirectory(object):
             Returns:
                 AAD Token as JSON response.
         """        
-        aad_auth_endpoint = "https://login.microsoftonline.com/{}/oauth2/token".format(aad_id)
+        aad_auth_endpoint = "https://login.microsoftonline.com/{}/oauth2/token".format(self.AzureActiveDirectoryID)
         app_credentials = {
             "client_id" : client_id,
             "client_secret" : client_secret,
-            "resource" : resource,
+            "resource" : self.Resource,
             "grant_type" : grant_type
         }
 
         return json.loads(requests.post(aad_auth_endpoint, data = app_credentials).text)
 
+    def GetToken(self, response):
+        """
+            Args:
+                response : The Client Credentials Grant Flow result as JSON response
+            Returns:
+                The Access Token required for the previously defined resource 
+                type as a base64 string.
+        """
+        return response['access_token']
+
 class OneDrive(AzureActiveDirectory):
-    # https://graph.microsoft.com/v1.0/me/drive/root:/画像/アニメ:/children
-    pass
+    def __init__(self, aad_id):
+        self.Resource = "https://graph.microsoft.com"
+        super().__init__(aad_id, self.Resource)
