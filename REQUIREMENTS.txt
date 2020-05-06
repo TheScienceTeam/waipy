@@ -2,3 +2,4 @@ praw==7.0.0
 Faker==4.0.3
 tqdm==4.45.0
 colorama==0.4.3
+click==7.1.2
