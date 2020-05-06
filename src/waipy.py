@@ -41,13 +41,7 @@ class Bot(object):
 
 
 if __name__ == '__main__': 
-    bot = Bot()
-
-    bot.browse(
-        subreddit = 'animewallpaper',
-        target_directory = gen.make_onedrive_directory('画像/アニメ/animewallpaper')
-    )
-    
+    pass
     
     
         
