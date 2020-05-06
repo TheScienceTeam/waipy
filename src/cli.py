@@ -34,7 +34,7 @@ def scrap(ctx, subreddit):
     
     bot = waipy.Bot(filename = ctx.obj['CONFIG'], count = ctx.obj['BOTCOUNT'])
     
-    bot.browse(
+    bot.scrap(
         subreddit = subreddit,
         target_directory = path,
         limit = limit,

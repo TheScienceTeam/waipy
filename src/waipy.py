@@ -29,7 +29,7 @@ class Bot(object):
                 user_agent = Faker().user_agent()
             )
 
-    def browse(self, subreddit, target_directory, limit = 10, min_score = 10):
+    def scrap(self, subreddit, target_directory, limit = 10, min_score = 10):
         subreddit = self.bot.subreddit(subreddit)
 
         for submission in tqdm(subreddit.top(limit = limit), unit = '画像', desc = 'ダウンロード中', bar_format = "{l_bar}%s{bar}%s{r_bar}" % (Fore.GREEN, Fore.RESET), ascii = True, total = limit):
